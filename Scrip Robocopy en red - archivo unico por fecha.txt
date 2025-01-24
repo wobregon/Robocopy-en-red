@@ -1,0 +1,21 @@
+@echo off
+REM Configuración de variables
+set ORIGEN=\\Tuipservidororigen\c$\scrip
+set DESTINO=\\Tuipservidordestino\c$\scrip
+set LOGFILE=C:\Logs\robocopy_log.txt
+
+REM Crear carpeta destino si no existe
+if not exist "%DESTINO%" (
+    mkdir "%DESTINO%"
+)
+
+REM Rango de fechas: del 01 de febrero al 31 de marzo de 2024
+REM Formato de archivos: nombre de tu archivo
+REM Filtrar fechas utilizando /MINAGE y /MAXAGE basados en días relativos desde el 01-01-1980
+REM 01/02/2024 = 16112 días, 31/03/2024 = 16171 días
+
+set MINAGE=16112
+set MAXAGE=16171
+
+REM Ejecutar ROBOCOPY para copiar los archivos con el formato especificado
+robocopy "%ORIGEN%" "%DESTINO%" "nombretuarchivo*.*" /MINAGE:%MINAGE% /MAXAGE:%MAXAGE% /LOG+:%LOGFILE% /R:3 /W
